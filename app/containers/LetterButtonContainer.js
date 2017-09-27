@@ -38,7 +38,7 @@ class LetterButtonContainer extends Component {
 		});
 	}
 	render(){
-		return <View style={styles.container} className="letter-button">
+		return <View style={styles.container}>
 				{this.letterButtons}
 		</View>
 	}
@@ -49,10 +49,9 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
-    paddingTop: 200,
+    paddingTop: 30,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#53555d',
   },
 });
 

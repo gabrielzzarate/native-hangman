@@ -2,21 +2,34 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, Text, StyleSheet, TouchableHighlight } from 'react-native';
 import { keyPressed, evalCorrect, evalIncorrect } from '../actions/words';
-import { primaryColor, dkGreen } from '../styles/common.js';
+import { primaryColor, dkGreen, red } from '../styles/common.js';
 
 class LetterButton extends Component {
+  state = {
+    buttonCorrect: false,
+    buttonClicked: false
+  }
+
+  setButtonCorrect() {
+    this.setState({buttonCorrect: true});
+  }
+  setButtonClicked() {
+    console.log('setting button clicked');
+    this.setState({buttonClicked: true});
+  }
 
 	letterButtonPress(keyCode){
+    let { currentWord, keysPressed } = this.props;
+
 		let keyPromise = new Promise((resolve, reject) => {
 			this.props.keyPressed(keyCode);
 			setTimeout(function(){
 				resolve("Success!");
-			}, 250);
+			}, 1);
 		});
 
 		keyPromise.then((successMessage) => {
-			const currentWord = this.props.currentWord;
-			const keysPressed = this.props.keysPressed;
+      this.setButtonClicked();
 			this.props.evalCorrect(currentWord, keysPressed);
 			this.props.evalIncorrect(currentWord, keysPressed);
 		});
@@ -24,7 +37,7 @@ class LetterButton extends Component {
 
 	render(){
 		const { data, correct } = this.props;
-		return <TouchableHighlight onPress={() => this.letterButtonPress(data.keyCode)} style={[ stylesButton.button, correct == true ? stylesButton.buttonCorrect : stylesButton.buttonInitial  ]} activeOpacity={10} underlayColor="white">
+		return <TouchableHighlight onPress={() => this.letterButtonPress(data.keyCode)} style={[ stylesButton.button, this.state.buttonCorrect == true ? stylesButton.buttonCorrect : stylesButton.buttonInitial  ]} activeOpacity={10}>
 				<Text style={stylesButton.buttonText}>{data.letter}</Text>
 		</TouchableHighlight>
 	}
@@ -63,9 +76,12 @@ const stylesButton = StyleSheet.create({
   buttonCorrect: {
   	backgroundColor: dkGreen
   },
+  buttonIncorrect: {
+    backgroundColor: red
+  },
   buttonText: {
   	//padding: 12,
-  	color: 'white',
+  	color: 'white'
   //	fontFamily: 'Aller',
   },
 

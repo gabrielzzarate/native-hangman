@@ -2,13 +2,17 @@ import * as types from './types';
 import * as data from '../data';
 //import Api from '../lib/api';
 
-
-export function addWord() {
+export function addWord(){
 	const rand = data.wordBank[Math.floor(Math.random() * data.wordBank.length)];
 	return {
 		type: types.ADD_WORD,
 		word: rand,
+	}
+}
 
+export function showModal(){
+	return {
+		type: types.SHOW_MODAL,
 	}
 }
 

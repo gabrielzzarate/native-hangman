@@ -4,15 +4,11 @@ import _ from 'underscore';
 import { View, Text, StyleSheet } from 'react-native';
 import Letter from './Letter';
 import * as data from '../data';
-
+import { ltGray } from '../styles/common.js';
 
 class WordBankIncorrect extends Component {
 	render(){
-		//console.log('wordbank', this.props);
 		const { pressed, correct, incorrect } = this.props;
-
-		console.log('incorrect', incorrect);
-
 		let incorrectItems;
 
 		if ( incorrect.length !== 0){
@@ -20,9 +16,9 @@ class WordBankIncorrect extends Component {
 			incorrectItems = incorrect.map(function(incorrectItem, i){
 				return <Letter key={i} data={incorrectItem}>{incorrectItem} </Letter>
 			});
-
 		}
-		return <View className="word-bank-incorrect-wrapper">
+		return <View style={ stylesWordBank.container }>
+			<Text>You Missed:</Text>
 			{incorrectItems}
 		</View>
 	}
@@ -34,15 +30,22 @@ function mapStateToProps(state){
 	}
 }
 
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     flexDirection: 'row',
-//     flexWrap: 'wrap',
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//     backgroundColor: '#53555d',
-//   },
-// });
+const stylesWordBank = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    //alignItems: 'flex-end',
+    paddingTop: 5,
+    marginTop: 40,
+    //alignItems: 'flex-start',
+    width: 250,
+    height: 80,
+    borderRadius: 3,
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    backgroundColor: ltGray,
+  },
+});
+
 export default connect(mapStateToProps, null)(WordBankIncorrect);
 
